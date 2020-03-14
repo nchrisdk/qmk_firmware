@@ -16,7 +16,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [QWERTY] = LAYOUT(KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSLS, 
                       KC_ESC, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_ENT, 
                       KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, LT(NAV,KC_LBRC), OSL(F), LT(NUM,KC_QUOT), LT(SHORTCUT,KC_RBRC), KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, 
-                      KC_NO, KC_LCTL, KC_SPC, KC_LALT, KC_LGUI, KC_RGUI, KC_BSPC, KC_SPC, KC_NO, KC_NO),
+                      KC_NO, KC_LCTL, KC_SPC, KC_LALT, KC_LGUI, KC_RGUI, KC_BSPC, KC_SPC, KC_LEAD, KC_NO),
     [NUM] = LAYOUT(KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_NO, KC_NO, 
                    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_ENT, 
                    KC_LSFT, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_GRV, KC_NO, KC_MINS, KC_EQL, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_RSFT, 
@@ -62,7 +62,7 @@ static void render_qmk_logo(void) {
 static void render_status(void) {
     // QMK Logo and version information
     render_qmk_logo();
-    oled_write_P(PSTR("       nchris v0.1.1\n\n"), false);
+    oled_write_P(PSTR("       nchris v0.1.2\n\n"), false);
 
     // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
@@ -101,6 +101,25 @@ void oled_task_user(void) {
     }
 }
 #endif
+
+LEADER_EXTERNS();
+
+void matrix_scan_user(void) {
+    LEADER_DICTIONARY() {
+        leading = false;
+        leader_end();
+
+        SEQ_ONE_KEY(KC_C) { // Markdown code
+            SEND_STRING("`` " SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+        }
+        SEQ_TWO_KEYS(KC_C, KC_B) { // Markdown code block
+            SEND_STRING("```" SS_LSFT(SS_TAP(X_ENTER) SS_TAP(X_ENTER)) "``` " SS_TAP(X_UP));
+        }
+        SEQ_TWO_KEYS(KC_E, KC_N) { // if not nil
+            SEND_STRING("if err != nil {" SS_TAP(X_ENTER));
+        }
+    }
+}
 
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {
