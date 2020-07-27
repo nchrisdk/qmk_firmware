@@ -37,7 +37,6 @@
 #define LEADER_PER_KEY_TIMING
 #define LEADER_TIMEOUT 250
 
-#define TAPPING_TERM 100
 #define PERMISSIVE_HOLD
 
 // Allows to use either side as the master. Look at the documentation for info:
@@ -46,3 +45,5 @@
 
 // Allows media codes to properly register in macros and rotary encoder code
 #define TAP_CODE_DELAY 10
+//The TAPPING_TERM time is the maximum time allowed between taps of your Tap Dance key, and is measured in milliseconds
+#define TAPPING_TERM 175 

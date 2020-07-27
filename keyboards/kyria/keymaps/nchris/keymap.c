@@ -13,12 +13,25 @@ enum custom_keycodes {
     KC_CCCV = SAFE_RANGE
 };
 
+//Tap Dance Declarations
+enum {
+  TD_TAB_GRV = 0
+};
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  //Tap once for TAB, twice for ~`
+  [TD_TAB_GRV]  = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_GRV)
+// Other declarations would go here, separated by commas, if you have them
+};
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* 
  * Default Layer: QWERTY
  *
  * ,-------------------------------------------.                                   ,-------------------------------------------.
- * | TAB    |   Q  |   W  |   E  |   R  |   T  |                                   |   Y  |   U  |   I  |   O  |   P  |  ' "   |
+ * | TAB/`~ |   Q  |   W  |   E  |   R  |   T  |                                   |   Y  |   U  |   I  |   O  |   P  |  ' "   |
  * |--------+------+------+------+------+------|                                   |------+------+------+------+------+--------|
  * | ESC    |   A  |   S  |SYM, D|NUM, F|NAV, G|                                   |   H  |   J  |SYM, K|   L  | ;  : |  ENT   |
  * |--------+------+------+------+------+------+-------------.  ,------------------+------+------+------+------+------+--------|
@@ -29,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `---------------------------------------'
  */
     [QWERTY] = LAYOUT(
-        KC_TAB,  KC_Q, KC_W, KC_E,        KC_R,        KC_T,                                                            KC_Y,   KC_U,   KC_I,        KC_O,  KC_P,    KC_QUOT, 
+        TD(TD_TAB_GRV),  KC_Q, KC_W, KC_E,        KC_R,        KC_T,                                                            KC_Y,   KC_U,   KC_I,        KC_O,  KC_P,    KC_QUOT, 
         KC_ESC,  KC_A, KC_S, LT(SYM,KC_D),LT(NUM,KC_F),LT(NAV,KC_G),                                                    KC_H,   KC_J,   LT(SYM,KC_K),KC_L,  KC_SCLN, KC_ENT, 
         KC_LSFT, KC_Z, KC_X, KC_C,        KC_V,        KC_B,        KC_LCBR, MO(F),       KC_RGUI, LT(SHORTCUT,KC_RCBR),KC_N,   KC_M,   KC_COMM,     KC_DOT,KC_SLSH, KC_RSFT, 
                              KC_NO,       KC_LGUI,     KC_LCTL,     KC_SPC , KC_LALT,      KC_LEAD, KC_SPC,             KC_BSPC  , KC_BSLS,KC_NO),
