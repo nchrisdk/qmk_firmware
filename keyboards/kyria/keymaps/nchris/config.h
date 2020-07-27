@@ -35,9 +35,9 @@
 
 // The Leader key allows to flexibly assign macros to key sequences.
 #define LEADER_PER_KEY_TIMING
-#define LEADER_TIMEOUT 200
+#define LEADER_TIMEOUT 250
 
-#define TAPPING_TERM 200
+#define TAPPING_TERM 100
 #define PERMISSIVE_HOLD
 
 // Allows to use either side as the master. Look at the documentation for info:
